@@ -1,0 +1,94 @@
+<div class="event-form-container">
+    <h1 class="form-heading">Create a new event</h1>
+    
+    <form class="event-form" (ngSubmit)="createEvent()">
+      <div class="form-group">
+        <label for="title">Enter Title</label>
+        <input [(ngModel)]="event.title" name="title" type="text" id="title" class="form-input" placeholder="Enter Title" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="description">Enter Description</label>
+        <input [(ngModel)]="event.description" name="description" type="text" id="description" class="form-input" placeholder="Enter Description" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="location">Enter Location</label>
+        <input [(ngModel)]="event.location" name="location" type="text" id="location" class="form-input" placeholder="Enter Location" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="startdate">Enter Start Date</label>
+        <input [(ngModel)]="event.startDate" name="startDate" type="datetime-local" id="startdate" class="form-input" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="endDate">Enter End Date</label>
+        <input [(ngModel)]="event.endDate" name="endDate" type="datetime-local" id="endDate" class="form-input" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="payment">Price</label>
+        <input [(ngModel)]="event.price" name="price" type="number" id="payment" class="form-input" placeholder="Enter Payment Amount" />
+      </div>
+
+      <button type="button" class="toggle-form-btn" (click)="toggleForm()">
+        Create Form
+      </button>
+
+
+     <div *ngIf="createForm">
+        <h3 class="form-heading">Add Registration Fields</h3>
+  
+        <div *ngFor="let field of registrationFields; let i = index" class="dynamic-field">
+          <p><strong>Field {{ i + 1 }}:</strong> {{ field.fieldName }} (Type: {{ field.fieldType }})</p>
+          <button type="button" class="btn btn-danger" (click)="removeField(i)">Remove Field</button>
+        </div>
+    
+        <div class="form-group">
+          <label for="fieldName">Field Name</label>
+          <input [(ngModel)]="newFormField.fieldName" name="fieldName" type="text" id="fieldName" class="form-input" placeholder="Field Name" required />
+        </div>
+    
+        <div class="form-group">
+          <label for="fieldType">Field Type</label>
+          <select [(ngModel)]="newFormField.fieldType" name="fieldType" class="form-input" required>
+            <option value="Text">Text</option>
+            <option value="Dropdown">Dropdown</option>
+            <option value="Radio">Radio Button</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="isRequired">Is Required</label>
+          <input [(ngModel)]="newFormField.isRequired" name="isRequired" type="checkbox" />
+        </div>
+       
+    
+        <div *ngIf="newFormField.fieldType === 'Dropdown'">
+            <label for="dropdownOptions">Dropdown Options</label>
+            <div *ngFor="let option of newFormField.dropdownOptions; let j = index; trackBy: trackByIndex" class="input-block">
+              <input type="text" [(ngModel)]="newFormField.dropdownOptions[j]" name="dropdownOption{{ j }}" placeholder="Option {{ j + 1 }}" class="form-input" />
+              <button type="button" class="btn btn-danger" (click)="removeOption(j)">Remove Option</button>
+            </div>
+            <button type="button" class="btn btn-secondary" (click)="addFieldOption()">Add Option</button>
+          </div>
+          
+          <!-- Radio options -->
+          <div *ngIf="newFormField.fieldType === 'Radio'">
+            <label for="radioOptions">Radio Button Options</label>
+            <div *ngFor="let option of newFormField.radioOptions; let j = index; trackBy: trackByIndex" class="input-block">
+              <input type="text" [(ngModel)]="newFormField.radioOptions[j]" name="radioOption{{ j }}" placeholder="Option {{ j + 1 }}" class="form-input" />
+              <button type="button" class="btn btn-danger" (click)="removeOption(j)">Remove Option</button>
+            </div>
+            <button type="button" class="btn btn-secondary" (click)="addFieldOption()">Add Option</button>
+          </div>
+    
+        <button type="button" class="btn btn-primary" (click)="addRegistrationField()">Add Field</button>
+     </div>
+     
+  
+      <button type="submit" class="submit-btn">Create Event</button>
+    </form>
+  </div>
+  

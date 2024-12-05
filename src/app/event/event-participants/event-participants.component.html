@@ -1,0 +1,30 @@
+<p>event-participants works!</p>
+<div *ngIf="participants.length > 0">
+    <h3>Participants for Event {{ eventId }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Registration Date</th>
+          <th>Payment Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let participant of participants">
+          <td>{{ participant.user.name }}</td>
+          <td>{{ participant.user.email }}</td>
+          <td>{{ participant.registrationDate | date }}</td>
+          <td>{{ participant.paymentStatus }}</td>
+          <td>
+            <!-- <button (click)="removeParticipant(participant.registrationId)">Remove</button> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="participants.length === 0">
+    <p>No participants registered yet.</p>
+  </div>
+  

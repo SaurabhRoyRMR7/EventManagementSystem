@@ -1,0 +1,112 @@
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+              <div class="mb-md-5 mt-md-4 pb-5">
+                <!-- Registration Title -->
+                <h2 class="fw-bold mb-2 text-uppercase">Register User</h2>
+                <p class="text-white-50 mb-5">Please fill out the form to register!</p>
+  
+                <!-- Registration Form -->
+                <form (ngSubmit)="register()">
+                  <!-- Name Input -->
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="name">Name</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="registrationData.name"
+                      name="name"
+                      id="name"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                  </div>
+  
+                  <!-- Email Input -->
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="email">Email</label>
+                    <input
+                      type="email"
+                      [(ngModel)]="registrationData.email"
+                      name="email"
+                      id="email"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                  </div>
+  
+                  <!-- Password Input -->
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input
+                      type="password"
+                      [(ngModel)]="registrationData.password"
+                      name="password"
+                      id="password"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                  </div>
+  
+                  <!-- Role Selection -->
+                  <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="role">Role</label>
+                    <select
+                      [(ngModel)]="registrationData.userRoleId"
+                      name="userRoleId"
+                      id="role"
+                      class="form-control form-control-lg"
+                      required
+                    >
+                      <option value="7">Participant</option>
+                      <option value="8">Organizer</option>
+                    </select>
+                  </div>
+  
+                  <!-- Show Organization Fields Only for Organizers -->
+                  <div *ngIf="registrationData.userRoleId === '8'" class="organizer-fields">
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label" for="organizationName">Organization Name</label>
+                      <input
+                        type="text"
+                        [(ngModel)]="registrationData.organizationName"
+                        name="organizationName"
+                        id="organizationName"
+                        class="form-control form-control-lg"
+                        required
+                      />
+                    </div>
+  
+                    <div class="form-outline form-white mb-4">
+                      <label class="form-label" for="contactInfo">Contact Info</label>
+                      <input
+                        type="text"
+                        [(ngModel)]="registrationData.contactInfo"
+                        name="contactInfo"
+                        id="contactInfo"
+                        class="form-control form-control-lg"
+                        required
+                      />
+                    </div>
+                  </div>
+  
+                  <!-- Submit Button -->
+                  <button type="submit" class="btn btn-outline-light btn-lg px-5">
+                    Register
+                  </button>
+                </form>
+  
+                <!-- Redirect to Login Page -->
+                <div (click)="navigateToLogin()" class="text-white-50" style="cursor: pointer;">
+                  Already have an account? Login here
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
