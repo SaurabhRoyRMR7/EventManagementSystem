@@ -38,7 +38,6 @@ export class UserService {
     return this.http.put<any>(`${this.apiUrl}/user/UpdateUserRole/${userId}`, { UserRoleId: userRoleId });
   }
 
-  // Delete user
   deleteUser(userId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/users/DeleteUser/${userId}`);
   }
@@ -51,7 +50,6 @@ export class UserService {
   }
 
   logout(): void {
-    
     localStorage.removeItem('userId');
     localStorage.removeItem('userRole');
   }

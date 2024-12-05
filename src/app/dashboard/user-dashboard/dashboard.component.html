@@ -1,7 +1,7 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 
-<div class="container py-5">
-  <div class="row">
+<div class="container">
+  <div class="row top-container">
 
     <div class="col-lg-4" style="height: 400px;">
       <div class="card mb-4">
@@ -224,7 +224,157 @@
 
 
 
-    <!-- <div *ngIf="userRole === 'Participant'">
+    
+
+
+  </div> -->
+
+  <app-navbar></app-navbar>
+
+<div class="container-fluid" style="width: 90%;">
+  <!-- Fixed Top Container -->
+  <div class="row top-container ">
+    <div class="col-lg-4" style="height: 200px;">
+      <div class="card mb-4">
+        <div class="card-body text-center d-flex flex-column align-items-center">
+          <div class="role-badge mb-3">
+            <span class="badge badge-primary">{{ userRole }}</span>
+          </div>
+          <div class="profile-img-container">
+            <span class="profile-img">
+              {{ getFirstLetterOfName() }}
+            </span>
+          </div>
+          <h5 class="my-3">{{ user.name }}</h5>
+          <p class="text-muted mb-1">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ user.name }}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ user.email }}</p>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 160px;"> <!-- Add margin-top to avoid overlap with fixed navbar -->
+    <div class="col-lg-3 side-container">
+      <div *ngIf="userRole === 'Organizer'">
+        <button [ngClass]="{'clicked': clickedButton === 'createEvent'}" (click)="toggleButtonClick('createEvent'); createEvent()">Create New Event</button>
+        <button [ngClass]="{'clicked': clickedButton === 'viewMyEvents'}" (click)="toggleButtonClick('viewMyEvents'); viewMyEvents()">View My Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewUpcomingEvents')}" (click)="toggleButtonClick('viewUpcomingEvents'); viewUpcomingEvents()">View Upcoming Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewRegisteredEvents')}" (click)="toggleButtonClick('viewRegisteredEvents'); viewRegisteredEvents()">View Registered Events</button>
+      </div>
+      
+      <div *ngIf="userRole === 'Participant'">
+        <button [ngClass]="{'clicked': activeButtons.has('viewUpcomingEvents')}" (click)="toggleButtonClick('viewUpcomingEvents'); viewUpcomingEvents()">View Upcoming Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewRegisteredEvents')}" (click)="toggleButtonClick('viewRegisteredEvents'); viewRegisteredEvents()">View Registered Events</button>
+      </div>
+      
+      <div *ngIf="userRole === 'Admin'">
+        <button [ngClass]="{'clicked': activeButtons.has('manageUsers')}" (click)="toggleButtonClick('manageUsers'); manageUsers()">Manage Users</button>
+        <button [ngClass]="{'clicked':activeButtons.has('manageEvents')}" (click)="toggleButtonClick('manageEvents'); manageEvents()">Manage Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('createEvent')}" (click)="toggleButtonClick('createEvent'); createEvent()">Create New Event</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewMyEvents')}" (click)="toggleButtonClick('viewMyEvents'); viewMyEvents()">View My Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewUpcomingEvents')}" (click)="toggleButtonClick('viewUpcomingEvents'); viewUpcomingEvents()">View Upcoming Events</button>
+        <button [ngClass]="{'clicked': activeButtons.has('viewRegisteredEvents')}" (click)="toggleButtonClick('viewRegisteredEvents'); viewRegisteredEvents()">View Registered Events</button>
+      </div>
+    </div>
+
+    <div class="col-lg-9 main-container">
+      <div *ngIf="viewEventFlag">
+        <div *ngIf="userRole === 'Organizer'">
+          <app-event-list [events]="events" [userRole]="userRole" [viewUpcomingEventFlag]="viewUpcomingEventFlag"
+            [viewRegisteredEventFlag]="viewRegisteredEventFlag" [clickedButton]="clickedButton" [activeButtons]="activeButtons">
+          </app-event-list>
+        </div>
+
+        <div *ngIf="events.length === 0">
+          <p>No events found. Please create an event.</p>
+        </div>
+      </div>
+
+      <div *ngIf="viewUpcomingEventFlag">
+        <app-event-list [events]="upcomingEvents" [userRole]="userRole" [viewUpcomingEventFlag]="viewUpcomingEventFlag"
+          [viewRegisteredEventFlag]="viewRegisteredEventFlag" [clickedButton]="clickedButton" [activeButtons]="activeButtons">
+        </app-event-list>
+
+        <div *ngIf="upcomingEvents.length === 0">
+          <p>No upcoming events found.</p>
+        </div>
+      </div>
+
+      <div *ngIf="viewRegisteredEventFlag">
+        <app-event-list [events]="registeredEvents" [userRole]="userRole" [viewUpcomingEventFlag]="viewUpcomingEventFlag"
+          [viewRegisteredEventFlag]="viewRegisteredEventFlag" [clickedButton]="clickedButton" [activeButtons]="activeButtons">
+        </app-event-list>
+
+        <div *ngIf="registeredEvents.length === 0">
+          <p>No registered events found. Please register for an event.</p>
+        </div>
+      </div>
+
+      <div *ngIf="manageUserFlag">
+        <h3>Users</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <select [(ngModel)]="user.selectedRole" class="form-control" [disabled]="user.selectedRole === 9">
+                  <option *ngFor="let role of roles" [value]="role.userRoleId">{{ role.roleName }}</option>
+                </select>
+              </td>
+              <td>
+                <button (click)="updateRole(user.userId , user.selectedRole)" class="btn btn-primary">Update Role</button>
+                <button (click)="deleteUser(user.userId)" class="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="manageEventFlag">
+        <h3>All Events</h3>
+        <app-event-list [events]="events" [userRole]="userRole" [viewUpcomingEventFlag]="viewUpcomingEventFlag"
+          [viewRegisteredEventFlag]="viewRegisteredEventFlag" [clickedButton]="clickedButton" [activeButtons]="activeButtons">
+        </app-event-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- <div *ngIf="userRole === 'Participant'">
 
       <button [ngClass]="{'clicked': activeButtons.has('viewUpcomingEvents')}"
         (click)="toggleButtonClick('viewUpcomingEvents'); viewUpcomingEvents()">
@@ -380,9 +530,3 @@
 
 
 
-
-
-
-  </div>
-
-  
