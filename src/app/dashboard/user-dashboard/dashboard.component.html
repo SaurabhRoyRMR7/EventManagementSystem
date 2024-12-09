@@ -303,6 +303,7 @@
 
     <div class="col-lg-9 main-container">
       <div *ngIf="viewEventFlag">
+        <div></div>
         <div *ngIf="userRole === 'Organizer'">
           <app-event-list [events]="events" [userRole]="userRole" [viewUpcomingEventFlag]="viewUpcomingEventFlag"
             [viewRegisteredEventFlag]="viewRegisteredEventFlag" [clickedButton]="clickedButton" [activeButtons]="activeButtons">

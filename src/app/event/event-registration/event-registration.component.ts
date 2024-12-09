@@ -54,6 +54,9 @@ export class EventRegistrationComponent {
 
   // Fetch the registration fields for the event
   getRegistrationFieldsForEvent(eventId: number): void {
+    // if(this.registrationFields.length!=0){
+    //   this.toastr.error('Please fill in all the required fields.');
+    //   }
     this.eventService.getRegistrationFields(eventId).subscribe(
       (fields: any) => {
         console.log(fields,'fields');
@@ -69,7 +72,12 @@ export class EventRegistrationComponent {
   // Handle the form submission
   registerForEvent(): void {
     if (this.registrationResponses.length === 0) {
+      if(this.registrationFields.length!=0){
       this.toastr.error('Please fill in all the required fields.');
+      
+      }
+      
+
       return;
     }
     

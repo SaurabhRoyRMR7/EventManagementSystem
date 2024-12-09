@@ -8,7 +8,7 @@ import { FieldOption } from '../models/field-option.model';
   providedIn: 'root',
 })
 export class FieldOptionService {
-  private apiUrl = `${environment.apiUrl}/field-options`; // Ensure the correct API base URL
+  private apiUrl = `${environment.apiUrl}/field-options`; 
 
   constructor(private http: HttpClient) {}
 

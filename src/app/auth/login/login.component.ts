@@ -24,7 +24,8 @@ export class LoginComponent {
     this.userService.login(this.loginData.email, this.loginData.password).subscribe(
       response => {
       console.log("res", response);
-        this.userService.saveUserDetails(response.userId, response.userRole);
+      console.log(response.token)
+        this.userService.saveUserDetails(response.response.userId, response.response.userRole,response.token);
         this.toastr.success('Login successful');
         // Navigate to the dashboard or home page based on role
 
